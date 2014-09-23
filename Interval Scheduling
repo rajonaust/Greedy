@@ -1,0 +1,41 @@
+// Greedy Problem
+// Interval Scheduling Problem
+// Give N number of works . Each works has a finish and start time .
+// Minimum number Programs needed to monitor a work . No program can't assign more than one program at a time .
+// But after finishing a work , a program can be assigned to a new work which is not started yet .
+#include <stdio.h>
+#include <algorithm>
+using namespace std;
+#define mx 50000
+struct abc
+{
+    int time , mark ;
+}arr[2*mx+10];
+bool cmp(abc a,abc b)
+{
+    if(a.time==b.time) return a.mark<b.mark;
+    return a.time<b.time;
+}
+int main()
+{
+    int N ;
+    scanf("%d",&N); // Number of works .
+    int seq = 1 ;
+    for(int i=1;i<=N;i++)
+    {
+        scanf("%d",&arr[seq].time);
+        arr[seq++].mark=0; // Start time mark is 0 .
+        scanf("%d",&arr[seq].time);
+        arr[seq++].mark=1; // End time mark is 1 .
+    }
+    sort(&arr[1],&arr[seq],cmp); // Ascending sort according to works time . If a program's start time and another program's end time is same than ascending sorted is applied according to start work .
+    int cur=0,ans=-1;
+    for(int i=1;i<seq;i++)
+    {
+        if(arr[i].mark==0) cur++;
+        else cur--;
+        if(ans<cur) ans=cur;
+    }
+    printf("%d\n",ans);
+    return 0;
+}
