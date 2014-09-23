@@ -1,0 +1,36 @@
+// Greedy Problem
+// Activity Selection Problem
+// Give N number of works . Each works has a finish and start time .
+// Maximum number of works needed to be assigned .
+// At a time only one work can be assigned . After finishing a work , a new work which is not started yet , can be assigned .
+#include <stdio.h>
+#include <algorithm>
+using namespace std;
+#define mx 50000
+struct abc
+{
+    int start , end ;
+}arr[mx+10];
+bool cmp(abc a,abc b)
+{
+    if(a.end==b.end) return a.start<b.start;
+    return a.end<b.end;
+}
+int main()
+{
+    int N ;
+    scanf("%d",&N); // Number of works .
+    for(int i=1;i<=N;i++) scanf("%d%d",&arr[i].start,&arr[i].end);
+    sort(&arr[1],&arr[N+1],cmp); // Ascending sort according to works end time . If end time of two programs is same than ascending sorted is applied according to start time .
+    int ans=0,prev_end=-1;
+    for(int i=1;i<=N;i++)
+    {
+        if(prev_end<arr[i].start)
+        {
+            ans++;
+            prev_end=arr[i].end;
+        }
+    }
+    printf("%d\n",ans);
+    return 0;
+}
