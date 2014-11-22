@@ -1,0 +1,84 @@
+// Fractional Knapsack - 2
+// Greedy Method
+// given N number of items and a W weight bag .
+// Each item consists a weight w (-10000<=w<=10000) and it's corresponding value v(-10000<=v<=10000) .
+// Fill the bag with this item but not overflow the bag and also maximize the profit .
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+using namespace std;
+struct ABC
+{
+    double w , v , u ;
+};
+bool cmp(ABC A,ABC B)
+{
+    return A.u > B.u ;
+}
+vector <ABC> list ;
+int main()
+{
+    int N ;
+    double W ;
+    scanf("%d%lf",&N,&W);
+
+    double profit = 0.0 ;
+
+    for(int i=0;i<N;i++)
+    {
+        ABC obj ;
+        scanf("%lf%lf",&obj.w,&obj.v);
+        obj.u = obj.v / obj.w ;
+        if(obj.w>=0&&obj.v<=0) continue ; // Not consider the item .
+        if(obj.w<=0&&obj.v>=0)
+        {
+            W-=obj.w;
+            profit+=obj.v;
+            continue;
+        } // Must take item .
+        if(obj.w<=0&&obj.v<=0)
+        {
+            W-=obj.w;
+            profit+=obj.v;
+            obj.w*=-1.0;
+            obj.v*=-1.0;
+        }
+        list.push_back(obj);
+    }
+
+    sort(list.begin(),list.end(),cmp);
+
+    for(int i=0;i<list.size()&&W!=0.0;i++)
+    {
+        if(list[i].w<=W)
+        {
+            W-=list[i].w;
+            profit+=list[i].v; // Take the item .
+        }
+        else
+        {
+            profit+=list[i].u*W; // take the item .
+            W=0.0;
+        }
+    }
+
+    printf("Maximize profit is : %lf\n",profit);
+
+    return 0;
+}
+/*
+10 19906
+7530 -9104
+-4820 -5750
+-4609 6797
+4295 6765
+7360 81
+-583 -5475
+-4908 2517
+5842 3744
+6712 8052
+-6319 9036
+*/
+/*
+Maximize profit is : 36992.000000
+*/
