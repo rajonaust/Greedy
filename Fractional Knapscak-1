@@ -1,0 +1,55 @@
+// Fractional Knapsack - 1
+// Greedy Method
+// given N number of items and a W weight bag .
+// Each item consists a weight w and it's corresponding value v .
+// Fill the bag with this item but not overflow the bag and also maximize the profit .
+#include <cstdio>
+#include <algorithm>
+using namespace std;
+struct ABC
+{
+    double w , v , u ;
+}arr[100+10];
+bool cmp(ABC x , ABC y)
+{
+    return x.u > y.u ;
+}
+int main()
+{
+    int N ; // N is the number of items .
+    double W ; // W is the total weight of the bag .
+    scanf("%d%lf",&N,&W);
+    for(int i=0;i<N;i++)
+    {
+        scanf("%lf%lf",&arr[i].w,&arr[i].v);
+        arr[i].u = arr[i].v / arr[i].w ;
+    }
+    sort(arr,arr+N,cmp);
+    double profit = 0.0 ;
+    for(int i=0;i<N&&W!=0.0;i++)
+    {
+        if(arr[i].w<=W)
+        {
+            W-=arr[i].w; // Take the item .
+            profit+=arr[i].v;
+        }
+        else
+        {
+            profit+=arr[i].u*W; // Take the item .
+            W=0.0;
+        }
+    }
+    printf("Maximize profit is : %lf\n",profit);
+    return 0;
+}
+/*
+5 10
+4 20
+5 24
+3 25
+1 10
+2 5
+*/
+/*
+Maximize profit is : 64.600000
+*/
