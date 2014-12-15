@@ -1,0 +1,62 @@
+// Huffman Coding .
+// Used Optimal Merge technique .
+#include <cstdio>
+#include <queue>
+#include <cstring>
+#include <iostream>
+using namespace std;
+char arr[10000+10] ;
+int str[150] ;
+struct list
+{
+    list *left , *right ;
+    int cnt ; char ch ;
+    list(int n,char x,list *a,list *b)
+    {
+        left = a ; right = b ;
+        cnt = n ; ch = x ;
+    }
+};
+class cmp
+{
+public:
+    bool operator() (list *a,list *b)
+    {
+        if(a->cnt > b->cnt) return true ;
+        else return false ;
+    }
+};
+void print_heap(list *node,string bit)
+{
+    if(node->left!=NULL)
+    {
+        print_heap(node->left,bit+'0');
+        print_heap(node->right,bit+'1');
+    }
+    else cout << "'" << node->ch << "' code is = " << bit << endl ;
+}
+void build_max_heap()
+{
+    priority_queue <list*,vector<list*>,cmp> pq ;
+    for(int i=0;i<=125;i++)
+    {
+        if(str[i]!=0) pq.push(new list(str[i],i,NULL,NULL));
+    }
+    while(pq.size()>1)
+    {
+        list *t1 = pq.top() ; pq.pop();
+        list *t2 = pq.top() ; pq.pop();
+        pq.push(new list(t1->cnt+t2->cnt,'*',t1,t2));
+    }
+    print_heap(pq.top(),"");
+}
+int main()
+{
+    while(gets(arr)&&arr[0]!=NULL)
+    {
+        for(int i=0;i<strlen(arr);i++) str[arr[i]]++;
+        memset(arr,NULL,sizeof(arr));
+    }
+    build_max_heap();
+    return 0;
+}
