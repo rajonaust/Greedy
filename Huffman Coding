@@ -60,3 +60,23 @@ int main()
     build_max_heap();
     return 0;
 }
+/*
+aaa mjfkidolfk kolpvlfhhj
+asdhjkadhjkasdk ajkdkljdkl
+*/
+/*
+'k' code is = 00
+'j' code is = 010
+'d' code is = 011
+' ' code is = 1000
+'f' code is = 1001
+'a' code is = 101
+'s' code is = 11000
+'i' code is = 110010
+'p' code is = 110011
+'h' code is = 1101
+'v' code is = 111000
+'m' code is = 111001
+'o' code is = 11101
+'l' code is = 1111
+*/
