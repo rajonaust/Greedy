@@ -1,0 +1,47 @@
+// Given A and B
+// Find A|(A+1)|(A+2)|...|B and A&(A+1)&(A+2)&...&B
+#include <cstdio>
+bool Check(long long N,long long Pos) {return (bool)(N&((long long)1<<Pos));}
+long long Set(long long N,long long Pos) {return N=(N|((long long)1<<Pos));}
+int main()
+{
+    long long a , b ;
+    scanf("%lld%lld",&a,&b);
+    long long ans_or = 0 , ans_and = 0 ;
+    for(long long i=0;i<=62;i++)
+    {
+        if(Check(a,i)||Check(b,i))
+        {
+            ans_or = Set(ans_or,i);
+            continue;
+        }
+        long long next = (long long)1<<(i) ;
+        for(long long j=i+1;j<=62;j++)
+        {
+            if(Check(a,j)) next = Set(next,j);
+        }
+        if(next>=a&&next<=b) ans_or = Set(ans_or,i);
+    }
+    for(long long i=0;i<=62;i++)
+    {
+        if(!Check(a,i)||!Check(b,i)) continue;
+        long long next = 0 ;
+        bool flag = false ;
+        for(long long j=i+1;j<=62;j++)
+        {
+            if(Check(a,j))
+            {
+                if(flag) next = Set(next,j);
+            }
+            else if(!flag)
+            {
+                next = Set(next,j);
+                flag = true ;
+            }
+        }
+        if(next<=b) continue ;
+        else ans_and = Set(ans_and,i);
+    }
+    printf("%lld %lld\n",ans_or,ans_and);
+    return 0;
+}
