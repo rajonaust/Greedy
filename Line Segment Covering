@@ -1,0 +1,57 @@
+/* Line Segment Covering Problem */
+/* Greedy Algorithm */
+/* Given N segments of line ( into the X axis ) with co-ordinates [L,R] and a point M . Choose minimum number of segments that covers the segment [0,M] . */
+/* Time Complexity O(NlogN+N) . */
+#include <cstdio>
+#include <climits>
+#include <algorithm>
+using namespace std;
+#define mx 100000
+struct Node
+{
+    int L , R ;
+    bool operator < (const Node &A) const
+    {
+        return L==A.L ? R < A.R : L < A.L ;
+    }
+}Info[mx+10],ANS[mx+10];
+int sz , L , R , tag , need ;
+
+int main()
+{
+    int N , M ; // N is the number of line segments and M is point and need to be covered the segment [0,M] .
+    scanf("%d%d",&N,&M);
+
+    for(int i=0;i<N;i++)
+    {
+        scanf("%d%d",&L,&R);
+        if(L>M&&R<0) continue ;
+        Info[sz].L = L ;
+        Info[sz].R = R ;
+        sz++ ;
+    }
+
+    sort(Info,Info+sz);
+    L = R = need = tag =  0 ;
+
+    for(int i=0;i<sz;)
+    {
+        if(L>=M) break ;
+
+        R=INT_MIN ;
+        while(Info[i].L<=L&&i<sz) R < Info[i].R ? R = Info[i].R , tag = i : i++ ;
+
+        if(R==INT_MIN) break ;
+        L = R ;
+        ANS[need++] = Info[tag] ;
+    }
+
+    if(L<M) puts("0");
+    else
+    {
+        printf("%d\n",need);
+        for(int i=0;i<need;i++) printf("%d %d\n",ANS[i].L,ANS[i].R);
+    }
+
+    return 0;
+}
