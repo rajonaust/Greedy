@@ -1,0 +1,83 @@
+// Greedy Problem
+// Next Palindrome .
+// Give an integer and get the smallest palindrome number which is larger than given number .
+// Time Complexity O ( N ) .
+// N -> length of the given integer .
+
+#include <stdio.h>
+#include <string.h>
+using namespace std;
+
+char arr[100000+10],brr[100000+10];
+
+int main()
+{
+    memset(arr,NULL,sizeof(arr));
+    memset(brr,NULL,sizeof(brr));
+
+    scanf("%s",&arr);
+    strcpy(brr,arr);
+
+    int lo = 0 , hi = strlen(arr)-1 ;
+
+    while( lo <= hi ) arr[hi--] = arr[lo++] ;
+
+    if(strcmp(arr,brr)>0) puts(arr);
+    else
+    {
+        lo-- ; hi++ ;
+        int carry = 1 ;
+
+        while(carry!=0&&lo>-1)
+        {
+            int t=arr[lo]+carry;
+            if(t>'9') t = '0' ; else carry = 0 ;
+            arr[lo--] = arr[hi++] = t ;
+        }
+
+        if(carry==1)
+        {
+            for(int i=hi;i>=1;i--) arr[i] = arr[i-1] ;
+            arr[0] = arr[hi] = '1' ;
+        }
+
+        puts(arr);
+    }
+
+    return 0;
+}
+
+/*
+999
+*/
+/*
+1001
+*/
+
+/*
+1
+*/
+/*
+2
+*/
+
+/*
+1332331
+*/
+/*
+1333331
+*/
+
+/*
+11
+*/
+/*
+22
+*/
+
+/*
+9
+*/
+/*
+11
+*/
